@@ -1,0 +1,37 @@
+WITH top_unicorns AS (
+    SELECT
+        industries.industry
+    FROM industries
+    LEFT JOIN dates ON dates.company_id = industries.company_id
+    WHERE EXTRACT(YEAR FROM dates.date_joined) IN (2019, 2020, 2021)
+    GROUP BY industries.industry, EXTRACT(YEAR FROM dates.date_joined)
+    ORDER BY COUNT(industries.company_id) DESC
+    LIMIT 3
+),
+valuation AS (
+	SELECT 
+		industry, 
+		avg(valuation) as avg_valuation, 
+		extract(year from date_joined) as year, 
+		COUNT(industries.company_id) as num_unicorns
+	FROM funding
+	LEFT JOIN industries
+	ON industries.company_id = funding.company_id
+	LEFT JOIN companies
+	ON companies.company_id = funding.company_id
+	LEFT JOIN dates
+	ON dates.company_id = funding.company_id
+	GROUP BY industry, year
+	)
+
+SELECT
+	top_unicorns.industry as industry,
+	year,
+	num_unicorns,
+	round((avg_valuation/1000000000),2) as average_valuation_billions
+FROM top_unicorns
+LEFT JOIN valuation
+ON valuation.industry = top_unicorns.industry
+WHERE year IN ('2019','2020','2021')
+ORDER BY year desc, num_unicorns desc;
+
