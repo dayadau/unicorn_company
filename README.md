@@ -13,7 +13,6 @@ Structuring the investment portfolio targets the fast-growth unicorns in 2019 - 
 - Data Extraction: Loaded data from the unicorns database.
 - Exploratory Data Analysis (EDA): Analyzed valuation patterns by industry.
 - Industry Comparison: Compute average valuations across industries, group by year to filter the top industries. 
-- Visualization: Created a graph to observe the development in quantity and average valuation of the top 3 industries.
 
 ## Skills
 The SQL functions are used:
