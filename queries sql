@@ -35,5 +35,6 @@ SELECT
 	num_unicorns,
 	round((avg_valuation/1000000000),2) as average_valuation_billions
 FROM valuation
-WHERE year IN ('2019','2020','2021') AND industry IN (SELECT industry												 FROM top_unicorns)
+WHERE year IN ('2019','2020','2021') 
+	AND industry IN (SELECT industry												 FROM top_unicorns)
 ORDER BY year desc, num_unicorns desc;
