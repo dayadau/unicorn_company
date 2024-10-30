@@ -1,3 +1,5 @@
+-- Create CTEs
+-- top_unicorns: Filter top 3 industries wtih highest joinned unicorns in 2019-2021 
 WITH top_unicorns AS (
     SELECT
         industries.industry
@@ -8,6 +10,8 @@ WITH top_unicorns AS (
     ORDER BY COUNT(industries.company_id) DESC
     LIMIT 3
 ),
+
+-- valuation: compute average valuation value group by month
 valuation AS (
 	SELECT 
 		industry, 
@@ -24,14 +28,12 @@ valuation AS (
 	GROUP BY industry, year
 	)
 
+-- Join two CTEs for the list of top 3 + average valuation in billions
 SELECT
-	top_unicorns.industry as industry,
+	industry,
 	year,
 	num_unicorns,
 	round((avg_valuation/1000000000),2) as average_valuation_billions
-FROM top_unicorns
-LEFT JOIN valuation
-ON valuation.industry = top_unicorns.industry
-WHERE year IN ('2019','2020','2021')
+FROM valuation
+WHERE year IN ('2019','2020','2021') AND industry IN (SELECT industry												 FROM top_unicorns)
 ORDER BY year desc, num_unicorns desc;
-
