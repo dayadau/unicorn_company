@@ -1,5 +1,5 @@
 -- Create CTEs
--- top_unicorns: Filter top 3 industries wtih highest joinned unicorns in 2019-2021 
+-- top_unicorns: Filter the top 3 industries with the highest joined unicorns in 2019-2021 
 WITH top_unicorns AS (
     SELECT
         industries.industry
@@ -8,10 +8,9 @@ WITH top_unicorns AS (
     WHERE EXTRACT(YEAR FROM dates.date_joined) IN (2019, 2020, 2021)
     GROUP BY industries.industry, EXTRACT(YEAR FROM dates.date_joined)
     ORDER BY COUNT(industries.company_id) DESC
-    LIMIT 3
-),
+    LIMIT 3),
 
--- valuation: compute average valuation value group by month
+-- Valuation: compute average valuation value group by month
 valuation AS (
 	SELECT 
 		industry, 
